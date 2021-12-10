@@ -20,6 +20,11 @@ public class KirbyController : MonoBehaviour
     [Header("Jumping")]
     int currentJumpIndex = 0;
     static int maxNumberJumps = 3;
+    public KirbyAnimationState animState;
+    bool punchPressed = false;
+
+    public PhysicsMaterial2D noFrictionMaterial;
+    public PhysicsMaterial2D hasFrictionMaterial;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +35,9 @@ public class KirbyController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        checkIfGrounded();
+
         Move();
+        checkIfGrounded();
         Debug.Log(isGrounded);
     }
 
@@ -41,6 +47,8 @@ public class KirbyController : MonoBehaviour
 
         if (!isGrounded && hit)
         {
+            animState = KirbyAnimationState.LANDING;
+            m_animtationController.SetInteger("AnimState", (int)animState);
             currentJumpIndex = 0;
         }
 
@@ -54,18 +62,41 @@ public class KirbyController : MonoBehaviour
 
         float jump = 0;
 
+        Debug.Log("X: " + x);
+        Debug.Log("ANim state: " + (int)animState);
+
+
         if (x != 0)
+        {
             FlipAniamtion(x);
+            if (isGrounded)
+            {
+                animState = KirbyAnimationState.WALKING;
+                m_animtationController.SetInteger("AnimState", (int)animState);
+            }
+        }
+        else if (m_rigidBody.velocity.x == 0 &&  isGrounded && animState != KirbyAnimationState.IDLE)
+        {
+            animState = KirbyAnimationState.IDLE;
+            m_animtationController.SetInteger("AnimState", (int)animState);
+        }
         
         if (isGrounded)
         {
             jump = Input.GetAxisRaw("Jump");
             if (jump > 0)
             {
+                animState = KirbyAnimationState.JUMP;
+                m_animtationController.SetInteger("AnimState", (int)animState);
                 currentJumpIndex++;
                 m_rigidBody.AddForce(new Vector2(0, verticalForce) * mass);
             }
 
+        }
+        else
+        {
+            animState = KirbyAnimationState.FLYING;
+            m_animtationController.SetInteger("AnimState", (int)animState);
         }
         m_rigidBody.velocity *= 0.97f;
     }
@@ -75,6 +106,14 @@ public class KirbyController : MonoBehaviour
         Debug.Log("Jump");
         if (currentJumpIndex < maxNumberJumps)
         {
+            if (animState == KirbyAnimationState.IDLE || animState == KirbyAnimationState.WALKING)
+            {
+                animState = KirbyAnimationState.JUMP;
+                m_animtationController.SetInteger("AnimState", (int)animState);
+            }
+            else if (animState != KirbyAnimationState.FLYING)
+                animState = KirbyAnimationState.FLYING;
+
             if (!isGrounded)
                 m_rigidBody.velocity = new Vector2(m_rigidBody.velocity.x, 0);
 
@@ -85,7 +124,9 @@ public class KirbyController : MonoBehaviour
 
     public void KirbyPunch()
     {
-        Debug.Log("Punch");
+        animState = KirbyAnimationState.PUNCH;
+        m_animtationController.SetInteger("AnimState", (int)animState);
+        punchPressed = false;
     }
 
     float FlipAniamtion(float x)
@@ -100,5 +141,19 @@ public class KirbyController : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(centeredPosition.position, groundedRadius);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+           if (collision.contacts[0].normal == Vector2.up)
+            {
+                collision.gameObject.GetComponent<Collider2D>().sharedMaterial = hasFrictionMaterial;
+            }
+            else
+                collision.gameObject.GetComponent<Collider2D>().sharedMaterial = noFrictionMaterial;
+        }
+
     }
 }
