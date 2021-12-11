@@ -67,10 +67,6 @@ public class KirbyController : MonoBehaviour
 
         float jump = 0;
 
-        Debug.Log("X: " + x);
-        Debug.Log("ANim state: " + (int)animState);
-
-
         if (x != 0)
         {
             if (!attackingWithSword)

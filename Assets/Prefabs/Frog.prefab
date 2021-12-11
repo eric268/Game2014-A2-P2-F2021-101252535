@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3814887439362131371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 430025046815891741}
+  m_Layer: 3
+  m_Name: CenteredPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &430025046815891741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3814887439362131371}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.091, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5282358808794586468}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5282358808794586469
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,6 +44,7 @@ GameObject:
   - component: {fileID: 352137503520128320}
   - component: {fileID: 2054156986219051371}
   - component: {fileID: 4536687621647427273}
+  - component: {fileID: 4656093554984089491}
   m_Layer: 3
   m_Name: Frog
   m_TagString: Enemy
@@ -35,6 +66,7 @@ Transform:
   - {fileID: 3448501148693226572}
   - {fileID: 6047819611482731275}
   - {fileID: 3117090001099587129}
+  - {fileID: 430025046815891741}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -180,6 +212,45 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   scale: 18
+  isAttacking: 0
+--- !u!114 &4656093554984089491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5282358808794586469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2a77b667e27fb44bac41564b586ce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frogLOSCollider: {fileID: 4430110684587558898}
+  collisionList: []
+  contactFilter:
+    useTriggers: 1
+    useLayerMask: 1
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  playerSeen: 0
+  isGrounded: 1
+  jumpAngle: 45
+  jumpTime: 3
+  jumpHeightOffset: 0.75
+  centeredPosition: {fileID: 430025046815891741}
+  groundedRadius: 1.5
+  platformLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &6477086470550276776
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,10 +337,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.5, y: 0.75}
+    - - {x: 0.25, y: 1}
       - {x: 2, y: 1}
-      - {x: 2, y: -0.25}
-      - {x: 0, y: -0.1}
+      - {x: 2, y: 0.25}
+      - {x: 0, y: 0.1}
 --- !u!1 &6848476239314158246
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class GroundEnemyController : MonoBehaviour
     public LayerMask platformMask;
     public LayerMask enemyLayerMask;
     public float scale;
+    public bool isAttacking;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +34,7 @@ public class GroundEnemyController : MonoBehaviour
     void CheckIfHittingGound()
     {
         var hit = Physics2D.Linecast(transform.position, lookForGround.position, platformMask);
-
+        
         isGroundForward = (hit) ? true : false;
 
     }
@@ -43,21 +44,32 @@ public class GroundEnemyController : MonoBehaviour
         RaycastHit2D[] hitArray = Physics2D.LinecastAll(transform.position, lookForGround.position, enemyLayerMask);
         foreach(RaycastHit2D hit in hitArray)
         {
-            if (hit.collider.gameObject != this.gameObject)
+            if (hit.collider.gameObject != this.gameObject || hit.collider.CompareTag("Boundary"))
                 ChangeDirection();
         }
     }
 
     void Move()
     {
-        if (isGroundForward)
+        if (!isAttacking)
         {
-            rigidBody.AddForce(Vector2.right * movementForce * currentDirection);
-            rigidBody.velocity *= 0.99f;
-        }
-        else
-        {
-            ChangeDirection();
+            if (isGroundForward)
+            {
+                if (gameObject.CompareTag("Test"))
+                {
+                    Debug.Log("Velocity: " + rigidBody.velocity);
+                }
+
+                Vector2 force = Vector2.right * movementForce * transform.localScale.x/scale;
+                rigidBody.AddForce(force);
+                if (rigidBody.velocity == Vector2.zero)
+                    rigidBody.velocity = Vector2.right * movementForce * transform.localScale.x / scale;
+                rigidBody.velocity *= 0.99f;
+            }
+            else
+            {
+                ChangeDirection();
+            }
         }
     }
 
