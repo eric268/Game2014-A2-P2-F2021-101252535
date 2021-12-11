@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class FallingPlatformController : MonoBehaviour
 {
-    bool m_bCollidedWithPlayer = false;
-    bool m_bStartingRespawn = false;
+    bool m_bCollidedWithPlayer;
+    bool m_bStartingRespawn;
 
-    float m_fStopPlatformValue = -20.0f;
-    float m_fBeginFallTimer = 1.5f;
-    float m_fBeingFallCounter = 0.0f;
-    float m_fRespawnTimer = 5.0f;
-    float m_fRespawnCounter = 0.0f;
+    public float m_fStopPlatformValue;
+    public float m_fBeginFallTimer;
+    public float m_fBeingFallCounter;
+    public float m_fRespawnTimer;
+    public float m_fRespawnCounter;
 
-    Vector2 m_vStartingPosition;
-    Rigidbody2D m_rigidBody;
-    BoxCollider2D m_collider;
+    public Vector2 m_vStartingPosition;
+    public Rigidbody2D m_rigidBody;
+    public BoxCollider2D m_collider;
     // Start is called before the first frame update
     void Start()
     {
