@@ -57,8 +57,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: -3, y: 2}
-      - {x: -3, y: -2}
+      - {x: -4, y: 3}
+      - {x: -4, y: -3}
 --- !u!1 &3378758606013341748
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 7904030213402791378}
   - component: {fileID: 1435798569966829765}
   - component: {fileID: 6283163303180563553}
+  - component: {fileID: 7452756750431297669}
   m_Layer: 3
   m_Name: Wasp
   m_TagString: Enemy
@@ -183,6 +184,7 @@ MonoBehaviour:
   leftXLimit: 25
   rightXLimit: 25
   scale: 0
+  playerSpotted: 0
 --- !u!50 &1435798569966829765
 Rigidbody2D:
   serializedVersion: 4
@@ -230,3 +232,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.64}
   m_EdgeRadius: 0
+--- !u!114 &7452756750431297669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3378758606013341748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4aa771474e3db499f6446fc5c2324e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aerialController: {fileID: 0}
+  startingPosition: {x: 0, y: 0}
+  playerPosition: {x: 0, y: 0}
+  maxChaseRange: 25
+  contactFilter:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  losCollider: {fileID: 3464485919719880651}
+  collisionList: []
+  test: 0.05
+  movingToStartPos: 0

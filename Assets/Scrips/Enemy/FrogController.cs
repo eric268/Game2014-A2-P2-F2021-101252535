@@ -5,6 +5,7 @@ using UnityEngine;
 public class FrogController : MonoBehaviour
 {
     Rigidbody2D rigidbody;
+    Animator animator;
     public Collider2D frogLOSCollider;
     public List<Collider2D> collisionList;
     public ContactFilter2D contactFilter;
@@ -27,6 +28,7 @@ public class FrogController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         groundController = GetComponent<GroundEnemyController>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -54,6 +56,8 @@ public class FrogController : MonoBehaviour
     {
         if (playerSeen && !jumpMoveMade)
         {
+            animator.Play("Jump");
+
             groundController.isAttacking = true;
             jumpMoveMade = true;
 
@@ -74,6 +78,7 @@ public class FrogController : MonoBehaviour
 
         if (!isGrounded && hit)
         {
+            animator.Play("Run");
             jumpMoveMade = false;
             groundController.isAttacking = false;
         }
