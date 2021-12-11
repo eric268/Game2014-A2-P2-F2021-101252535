@@ -21,8 +21,13 @@ public class KirbyController : MonoBehaviour
     int currentJumpIndex = 0;
     static int maxNumberJumps = 3;
     public KirbyAnimationState animState;
-    bool punchPressed = false;
+    public GameObject m_kirbySword;
 
+    bool attackingWithSword = false;
+    float punchColliderTimer = 0.65f;
+    float punchColliderCounter = 0.0f;
+
+    public SwordController swordCollider;
     public PhysicsMaterial2D noFrictionMaterial;
     public PhysicsMaterial2D hasFrictionMaterial;
 
@@ -38,7 +43,7 @@ public class KirbyController : MonoBehaviour
 
         Move();
         checkIfGrounded();
-        Debug.Log(isGrounded);
+        CheckPunchCollider(Time.deltaTime);
     }
 
     void checkIfGrounded()
@@ -68,7 +73,8 @@ public class KirbyController : MonoBehaviour
 
         if (x != 0)
         {
-            FlipAniamtion(x);
+            if (!attackingWithSword)
+                FlipAniamtion(x);
             if (isGrounded)
             {
                 animState = KirbyAnimationState.WALKING;
@@ -126,7 +132,9 @@ public class KirbyController : MonoBehaviour
     {
         animState = KirbyAnimationState.PUNCH;
         m_animtationController.SetInteger("AnimState", (int)animState);
-        punchPressed = false;
+        attackingWithSword = true;
+        m_kirbySword.SetActive(true);
+
     }
 
     float FlipAniamtion(float x)
@@ -153,6 +161,21 @@ public class KirbyController : MonoBehaviour
             }
             else
                 collision.gameObject.GetComponent<Collider2D>().sharedMaterial = noFrictionMaterial;
+        }
+
+    }
+
+    private void CheckPunchCollider(float deltaTime)
+    {
+        if (attackingWithSword)
+        {
+            punchColliderCounter += deltaTime;
+            if (punchColliderCounter >= punchColliderTimer)
+            {
+                punchColliderCounter = 0.0f;
+                attackingWithSword = false;
+                m_kirbySword.SetActive(false);
+            }
         }
 
     }

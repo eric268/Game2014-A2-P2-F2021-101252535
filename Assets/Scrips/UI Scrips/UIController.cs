@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
@@ -10,6 +11,9 @@ public class UIController : MonoBehaviour
     delegate void PunchButtonPressedDelegate();
     PunchButtonPressedDelegate punchButtonPressedDelegate;
 
+    public static int score;
+    public TextMeshProUGUI scoreText;
+
     public static bool aButtonPressed;
     public static bool bButtonPressed;
 
@@ -19,6 +23,12 @@ public class UIController : MonoBehaviour
     {
         jumpButtonPressedDelegate = kirbyRef.KirbyJump;
         punchButtonPressedDelegate = kirbyRef.KirbyPunch;
+        score = 0;
+    }
+
+    private void Update()
+    {
+        scoreText.text = score.ToString();
     }
 
     public void AButtonPressed()
