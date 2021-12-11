@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FrogController : MonoBehaviour
 {
+    public Transform lookAheadPoint;
+    public Transform lookForwardPoint;
     // Start is called before the first frame update
     void Start()
     {

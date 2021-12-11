@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5282358808794586468}
   - component: {fileID: 5282358808794586471}
   - component: {fileID: 5282358808794586470}
-  - component: {fileID: 4238960079649038530}
   - component: {fileID: 352137503520128320}
   - component: {fileID: 2054156986219051371}
+  - component: {fileID: 4536687621647427273}
   m_Layer: 3
   m_Name: Frog
   m_TagString: Enemy
@@ -30,10 +30,11 @@ Transform:
   m_GameObject: {fileID: 5282358808794586469}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 63.9, y: 44.6, z: 217.6655}
-  m_LocalScale: {x: 18.346, y: 18.346, z: 18.346}
+  m_LocalScale: {x: 18, y: 18, z: 18}
   m_Children:
   - {fileID: 3448501148693226572}
   - {fileID: 6047819611482731275}
+  - {fileID: 3117090001099587129}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -108,18 +109,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4238960079649038530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5282358808794586469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc2a77b667e27fb44bac41564b586ce6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &352137503520128320
 Rigidbody2D:
   serializedVersion: 4
@@ -151,7 +140,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -167,6 +156,60 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.24, y: 0.33}
   m_EdgeRadius: 0
+--- !u!114 &4536687621647427273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5282358808794586469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9984a8c4e7673bc4cb123ea4b7d4bfb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAheadPoint: {fileID: 3117090001099587129}
+  lookForGround: {fileID: 3448501148693226572}
+  isGroundForward: 0
+  movementForce: 10
+  currentDirection: 1
+  platformMask:
+    serializedVersion: 2
+    m_Bits: 64
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  scale: 18
+--- !u!1 &6477086470550276776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3117090001099587129}
+  m_Layer: 3
+  m_Name: LookForwardPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3117090001099587129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6477086470550276776}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.232, y: -0.094, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5282358808794586468}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6659308908313161190
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +251,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -237,7 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3448501148693226572}
   m_Layer: 0
-  m_Name: LookAheadPoint
+  m_Name: LookGroundPoint
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

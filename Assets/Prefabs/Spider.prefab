@@ -34,6 +34,7 @@ Transform:
   m_Children:
   - {fileID: 8510614971750944120}
   - {fileID: 3189352205895588123}
+  - {fileID: 5064056913463472802}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -120,6 +121,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9984a8c4e7673bc4cb123ea4b7d4bfb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookAheadPoint: {fileID: 5064056913463472802}
+  lookForGround: {fileID: 8510614971750944120}
+  isGroundForward: 0
+  movementForce: 10
+  currentDirection: 1
+  platformMask:
+    serializedVersion: 2
+    m_Bits: 64
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  scale: 0
 --- !u!61 &68892301274865165
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -234,7 +247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8510614971750944120}
   m_Layer: 3
-  m_Name: LookAheadPoint
+  m_Name: LookForGroundPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,9 +261,39 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6383326806078661974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.573, y: -0.281, z: 0}
+  m_LocalPosition: {x: 0.406, y: -0.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3842819627552280315}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6464189792523504749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5064056913463472802}
+  m_Layer: 3
+  m_Name: LookForwardPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5064056913463472802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6464189792523504749}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.389, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3842819627552280315}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
