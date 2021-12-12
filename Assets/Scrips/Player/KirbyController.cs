@@ -155,38 +155,9 @@ public class KirbyController : MonoBehaviour
     float FlipAniamtion(float x)
     {
         x = (x > 0) ? 1 : -1;
-
-        transform.localScale = new Vector3(x * spriteScale, spriteScale);
+        transform.localScale = new Vector3(x * spriteScale, spriteScale, spriteScale);
         return x;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(centeredPosition.position, groundedRadius);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Platform"))
-        {
-           if (collision.contacts[0].normal == Vector2.up)
-            {
-                collision.gameObject.GetComponent<Collider2D>().sharedMaterial = hasFrictionMaterial;
-            }
-            else
-                collision.gameObject.GetComponent<Collider2D>().sharedMaterial = noFrictionMaterial;
-        }
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            KirbyLostLife();
-        }
-
-        if (collision.gameObject.CompareTag("Finish"))
-        {
-            GameOver(true);
-        }
-
+        
     }
 
     private void CheckPunchCollider(float deltaTime)
@@ -247,5 +218,60 @@ public class KirbyController : MonoBehaviour
         circleCollider.enabled = true;
         animState = KirbyAnimationState.IDLE;
         m_animtationController.SetInteger("AnimState", (int)animState);
+    }
+
+    private void CoinPickedUp(GameObject coin)
+    {
+        UIController.score +=coin.GetComponent<CoinController>().scoreValue;
+        Destroy(coin);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            if (collision.contacts[0].normal == Vector2.up)
+            {
+                collision.gameObject.GetComponent<Collider2D>().sharedMaterial = hasFrictionMaterial;
+            }
+            else
+                collision.gameObject.GetComponent<Collider2D>().sharedMaterial = noFrictionMaterial;
+
+        }
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.SetParent(collision.gameObject.transform.parent);
+        }
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            KirbyLostLife();
+        }
+
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            GameOver(true);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.SetParent(null);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Coin"))
+        {
+            CoinPickedUp(collision.gameObject);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(centeredPosition.position, groundedRadius);
     }
 }
