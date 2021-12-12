@@ -17,6 +17,10 @@ public class UIController : MonoBehaviour
     public static bool aButtonPressed;
     public static bool bButtonPressed;
 
+    public GameObject[] heartArray;
+
+    public int livesRemaining;
+
     public KirbyController kirbyRef;
     // Start is called before the first frame update
     void Start()
@@ -51,5 +55,11 @@ public class UIController : MonoBehaviour
     public void BButtonReleased()
     {
         bButtonPressed = false;
+    }
+
+    public void UpdateHeartUI()
+    {
+        livesRemaining--;
+        heartArray[livesRemaining].SetActive(false);
     }
 }

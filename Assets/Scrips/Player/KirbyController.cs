@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class KirbyController : MonoBehaviour
 {
     public Joystick joyStick;
-
+    public int numLives;
     public Rigidbody2D m_rigidBody;
     public Animator m_animtationController;
     public float horizontalForce;
@@ -22,11 +23,18 @@ public class KirbyController : MonoBehaviour
     static int maxNumberJumps = 3;
     public KirbyAnimationState animState;
     public GameObject m_kirbySword;
-
+    public Vector2 startingPos;
     bool attackingWithSword = false;
     float punchColliderTimer = 0.65f;
     float punchColliderCounter = 0.0f;
 
+    public CircleCollider2D circleCollider;
+
+    public bool kirbyDead;
+    public float deathCounter;
+    public float dealthTimer;
+
+    public UIController uiControllerRef;
     public SwordController swordCollider;
     public PhysicsMaterial2D noFrictionMaterial;
     public PhysicsMaterial2D hasFrictionMaterial;
@@ -35,6 +43,8 @@ public class KirbyController : MonoBehaviour
     void Start()
     {
         mass = m_rigidBody.mass * m_rigidBody.gravityScale;
+        startingPos = transform.position;
+        circleCollider = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
@@ -44,6 +54,7 @@ public class KirbyController : MonoBehaviour
         Move();
         checkIfGrounded();
         CheckPunchCollider(Time.deltaTime);
+
     }
 
     void checkIfGrounded()
@@ -62,75 +73,83 @@ public class KirbyController : MonoBehaviour
 
     private void Move()
     {
-        float x = (Input.GetAxis("Horizontal") + joyStick.Horizontal) * movementSensativity;
-        m_rigidBody.AddForce(new Vector2(x * horizontalForce, 0) * mass);
-
-        float jump = 0;
-
-        if (x != 0)
+        if (!kirbyDead)
         {
-            if (!attackingWithSword)
-                FlipAniamtion(x);
+            float x = (Input.GetAxis("Horizontal") + joyStick.Horizontal) * movementSensativity;
+            m_rigidBody.AddForce(new Vector2(x * horizontalForce, 0) * mass);
+
+            float jump = 0;
+
+            if (x != 0)
+            {
+                if (!attackingWithSword)
+                    FlipAniamtion(x);
+                if (isGrounded)
+                {
+                    animState = KirbyAnimationState.WALKING;
+                    m_animtationController.SetInteger("AnimState", (int)animState);
+                }
+            }
+            else if (m_rigidBody.velocity.x == 0 && isGrounded && animState != KirbyAnimationState.IDLE)
+            {
+                animState = KirbyAnimationState.IDLE;
+                m_animtationController.SetInteger("AnimState", (int)animState);
+            }
+
             if (isGrounded)
             {
-                animState = KirbyAnimationState.WALKING;
-                m_animtationController.SetInteger("AnimState", (int)animState);
-            }
-        }
-        else if (m_rigidBody.velocity.x == 0 &&  isGrounded && animState != KirbyAnimationState.IDLE)
-        {
-            animState = KirbyAnimationState.IDLE;
-            m_animtationController.SetInteger("AnimState", (int)animState);
-        }
-        
-        if (isGrounded)
-        {
-            jump = Input.GetAxisRaw("Jump");
-            if (jump > 0)
-            {
-                animState = KirbyAnimationState.JUMP;
-                m_animtationController.SetInteger("AnimState", (int)animState);
-                currentJumpIndex++;
-                m_rigidBody.AddForce(new Vector2(0, verticalForce) * mass);
-            }
+                jump = Input.GetAxisRaw("Jump");
+                if (jump > 0)
+                {
+                    animState = KirbyAnimationState.JUMP;
+                    m_animtationController.SetInteger("AnimState", (int)animState);
+                    currentJumpIndex++;
+                    m_rigidBody.AddForce(new Vector2(0, verticalForce) * mass);
+                }
 
+            }
+            else
+            {
+                animState = KirbyAnimationState.FLYING;
+                m_animtationController.SetInteger("AnimState", (int)animState);
+            }
+            m_rigidBody.velocity *= 0.97f;
         }
-        else
-        {
-            animState = KirbyAnimationState.FLYING;
-            m_animtationController.SetInteger("AnimState", (int)animState);
-        }
-        m_rigidBody.velocity *= 0.97f;
     }
 
     public void KirbyJump()
     {
-        Debug.Log("Jump");
-        if (currentJumpIndex < maxNumberJumps)
+        if (!kirbyDead)
         {
-            if (animState == KirbyAnimationState.IDLE || animState == KirbyAnimationState.WALKING)
+            Debug.Log("Jump");
+            if (currentJumpIndex < maxNumberJumps)
             {
-                animState = KirbyAnimationState.JUMP;
-                m_animtationController.SetInteger("AnimState", (int)animState);
+                if (animState == KirbyAnimationState.IDLE || animState == KirbyAnimationState.WALKING)
+                {
+                    animState = KirbyAnimationState.JUMP;
+                    m_animtationController.SetInteger("AnimState", (int)animState);
+                }
+                else if (animState != KirbyAnimationState.FLYING)
+                    animState = KirbyAnimationState.FLYING;
+
+                if (!isGrounded)
+                    m_rigidBody.velocity = new Vector2(m_rigidBody.velocity.x, 0);
+
+                currentJumpIndex++;
+                m_rigidBody.AddForce(new Vector2(0, verticalForce) * mass);
             }
-            else if (animState != KirbyAnimationState.FLYING)
-                animState = KirbyAnimationState.FLYING;
-
-            if (!isGrounded)
-                m_rigidBody.velocity = new Vector2(m_rigidBody.velocity.x, 0);
-
-            currentJumpIndex++;
-            m_rigidBody.AddForce(new Vector2(0, verticalForce) * mass);
         }
     }
 
     public void KirbyPunch()
     {
-        animState = KirbyAnimationState.PUNCH;
-        m_animtationController.SetInteger("AnimState", (int)animState);
-        attackingWithSword = true;
-        m_kirbySword.SetActive(true);
-
+        if (!kirbyDead)
+        {
+            animState = KirbyAnimationState.PUNCH;
+            m_animtationController.SetInteger("AnimState", (int)animState);
+            attackingWithSword = true;
+            m_kirbySword.SetActive(true);
+        }
     }
 
     float FlipAniamtion(float x)
@@ -158,6 +177,15 @@ public class KirbyController : MonoBehaviour
             else
                 collision.gameObject.GetComponent<Collider2D>().sharedMaterial = noFrictionMaterial;
         }
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            KirbyLostLife();
+        }
+
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            GameOver(true);
+        }
 
     }
 
@@ -174,5 +202,50 @@ public class KirbyController : MonoBehaviour
             }
         }
 
+    }
+
+    IEnumerator KirbyDeath()
+    {
+        yield return new WaitForSeconds(dealthTimer);
+        ResetPlayer();
+    }
+
+    public void KirbyLostLife()
+    {
+        numLives--;
+        kirbyDead = true;
+        if (numLives <= 0)
+        {
+            GameOver(false);
+        }
+        else
+        {
+            uiControllerRef.UpdateHeartUI();
+            StartCoroutine(KirbyDeath());
+            circleCollider.enabled = false;
+            animState = KirbyAnimationState.DEATH;
+            m_animtationController.Play("Death");
+            //m_animtationController.SetInteger("AnimState", (int)animState);
+        }
+
+    }
+
+    private void GameOver(bool gameWon)
+    {
+        int won = (gameWon) ? 1 : 0;
+        PlayerPrefs.SetInt("Game Won", won);
+        PlayerPrefs.SetInt("Score", UIController.score);
+        PlayerPrefs.SetInt("Game Saved", 1);
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("GameOver");
+    }
+
+    private void ResetPlayer()
+    {
+        kirbyDead = false;
+        transform.position = startingPos;
+        circleCollider.enabled = true;
+        animState = KirbyAnimationState.IDLE;
+        m_animtationController.SetInteger("AnimState", (int)animState);
     }
 }

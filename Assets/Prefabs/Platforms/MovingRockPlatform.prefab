@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5958687619621987806}
   - component: {fileID: 5958687619621987805}
   - component: {fileID: 6688080594839004035}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MovingRockPlatform
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

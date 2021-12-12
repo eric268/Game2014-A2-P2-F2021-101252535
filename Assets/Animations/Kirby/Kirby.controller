@@ -341,7 +341,7 @@ AnimatorStateMachine:
     m_Position: {x: 1100, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1663908467960925343}
-    m_Position: {x: 480, y: 830, z: 0}
+    m_Position: {x: 470, y: 790, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4381163249433744958}
     m_Position: {x: 640, y: 210, z: 0}
@@ -503,7 +503,7 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -814,7 +814,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Kirby_Death_Anim 0
+  m_Name: Death
   m_Speed: 0.3
   m_CycleOffset: 0
   m_Transitions:
