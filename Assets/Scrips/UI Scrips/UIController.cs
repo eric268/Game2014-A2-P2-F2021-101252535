@@ -28,6 +28,7 @@ public class UIController : MonoBehaviour
         jumpButtonPressedDelegate = kirbyRef.KirbyJump;
         punchButtonPressedDelegate = kirbyRef.KirbyPunch;
         score = 0;
+        BackgroundSoundManager.PlaySound("Level1");
     }
 
     private void Update()

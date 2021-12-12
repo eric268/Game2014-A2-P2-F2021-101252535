@@ -22,6 +22,8 @@ public class InstructionsUI : MonoBehaviour
         nextPage2Button.GetComponent<Button>().onClick.AddListener(NextPage2MenuButtonPressed);
         previousPage1Button.GetComponent<Button>().onClick.AddListener(PreviousPage1ButtonPressed);
         previousPage2Button.GetComponent<Button>().onClick.AddListener(PreviousPage2ButtonPressed);
+
+        BackgroundSoundManager.PlaySound("Instructions");
     }
 
     // Update is called once per frame

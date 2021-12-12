@@ -39,6 +39,7 @@ public class KirbyController : MonoBehaviour
     public PhysicsMaterial2D noFrictionMaterial;
     public PhysicsMaterial2D hasFrictionMaterial;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -121,7 +122,7 @@ public class KirbyController : MonoBehaviour
     {
         if (!kirbyDead)
         {
-            Debug.Log("Jump");
+            SoundEffectManager.PlaySound("Jump");
             if (currentJumpIndex < maxNumberJumps)
             {
                 if (animState == KirbyAnimationState.IDLE || animState == KirbyAnimationState.WALKING)
@@ -143,6 +144,7 @@ public class KirbyController : MonoBehaviour
 
     public void KirbyPunch()
     {
+        SoundEffectManager.PlaySound("Hit");
         if (!kirbyDead)
         {
             animState = KirbyAnimationState.PUNCH;
@@ -177,6 +179,7 @@ public class KirbyController : MonoBehaviour
 
     IEnumerator KirbyDeath()
     {
+        SoundEffectManager.PlaySound("Death");
         yield return new WaitForSeconds(dealthTimer);
         ResetPlayer();
     }
@@ -265,6 +268,7 @@ public class KirbyController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Coin"))
         {
+            SoundEffectManager.PlaySound("Coin");
             CoinPickedUp(collision.gameObject);
         }
     }

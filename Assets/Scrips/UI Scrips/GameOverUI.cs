@@ -18,7 +18,7 @@ public class GameOverUI : MonoBehaviour
         mainMenuButon.GetComponent<Button>().onClick.AddListener(MainMenuButtonPressed);
         exitGameButton.GetComponent<Button>().onClick.AddListener(ExitGameButtonPressed);
         LoadGameResults();
-
+        BackgroundSoundManager.PlaySound("GameOver");
     }
 
     void LoadGameResults()

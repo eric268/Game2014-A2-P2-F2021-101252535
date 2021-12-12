@@ -13,6 +13,7 @@ public class MainMenuUIManager : MonoBehaviour
         playButton.GetComponent<Button>().onClick.AddListener(PlayButtonPressed);
         instructionsButton.GetComponent<Button>().onClick.AddListener(InstructionsButtonPressed);
         exitButton.GetComponent<Button>().onClick.AddListener(ExitButtonPressed);
+        BackgroundSoundManager.PlaySound("MainMenu");
     }
 
     // Update is called once per frame
