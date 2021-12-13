@@ -244,7 +244,7 @@ MonoBehaviour:
   playerSeen: 0
   isGrounded: 1
   jumpAngle: 45
-  jumpTime: 3
+  jumpTime: 4
   jumpHeightOffset: 0.75
   centeredPosition: {fileID: 430025046815891741}
   groundedRadius: 1.5

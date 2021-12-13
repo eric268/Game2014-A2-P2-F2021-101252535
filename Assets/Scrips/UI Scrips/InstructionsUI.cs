@@ -1,3 +1,9 @@
+//-------------------------InstructionsUI.cs-------------------------------------------
+//----------------Author: Eric Galway 101252535------------------------------------
+//----------------Date Last Modified: Dec 11 2021----------------------------------
+//  The file containts the script used for updating the instructions scene UI
+//  Revision History : 1.2 Added background sound
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,11 +32,6 @@ public class InstructionsUI : MonoBehaviour
         BackgroundSoundManager.PlaySound("Instructions");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     void MainMenuButtonPressed()
     {
         SceneManager.LoadScene("MainMenu");
@@ -51,7 +52,7 @@ public class InstructionsUI : MonoBehaviour
     {
         ShowCorrectCanvas(platformsCanvas);
     }
-
+    //Ensures that only one canvas is shown at a time
     void ShowCorrectCanvas(GameObject canvas)
     {
         goalCanvas.SetActive(false);

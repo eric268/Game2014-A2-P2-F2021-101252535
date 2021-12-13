@@ -1,3 +1,9 @@
+//-------------------------BackgroundSoundManager.cs--------------------------------------
+//----------------Author: Eric Galway 101252535------------------------------------
+//----------------Date Last Modified: Dec 11 2021----------------------------------
+//  The file containts the script used for playing background sounds
+//  Revision History : 1.0 Added static function and variables
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +28,7 @@ public class BackgroundSoundManager : MonoBehaviour
     {
         
     }
-
+    //A static function that can play sound clips
     public static void PlaySound(string clip)
     {
         switch (clip)

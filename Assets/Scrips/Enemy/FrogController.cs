@@ -1,7 +1,14 @@
+//-------------------------FrogController.cs---------------------------------------
+//----------------Author: Eric Galway 101252535------------------------------------
+//----------------Date Last Modified: Dec 11 2021----------------------------------
+//  The file containts the script used for controlling the frog enemies jump attack
+//  Revision History : 1.2 Added check to ensure player hasn't been spotted.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Frog controller class
 public class FrogController : MonoBehaviour
 {
     Rigidbody2D rigidbody;
@@ -39,9 +46,11 @@ public class FrogController : MonoBehaviour
         CheckIfGrounded();
 
     }
+    //Checks if the frog sees the enemy
     void CheckLOSCollision()
     {
         Physics2D.GetContacts(frogLOSCollider, contactFilter, collisionList);
+        //Since using a player contractFilter and only one enemy exists if this is not 0 player is seen
         if (collisionList.Count > 0)
         {
             distanceToPlayer = new Vector2();
@@ -51,7 +60,7 @@ public class FrogController : MonoBehaviour
         else
             playerSeen = false;
     }
-
+    //Does the projectile motion calculations and sets velocity to that 
     void FrogJumpAttackEnabled()
     {
         if (playerSeen && !jumpMoveMade)
@@ -65,13 +74,14 @@ public class FrogController : MonoBehaviour
             distanceToPlayer.y = playerPosition.y - transform.position.y;
 
             velocity.x = distanceToPlayer.x / jumpTime * 2.0f;
+            //Jump height offset is so the frog doesnt jump directly at the player making it a bit more unpredictable/harder
             velocity.y = (distanceToPlayer.y + (9.8f * (jumpTime * jumpTime) / 2.0f)) / jumpTime * jumpHeightOffset;
 
             //rigidbody.velocity = velocity;
             rigidbody.AddForce(velocity, ForceMode2D.Impulse);
         }
     }
-
+    //Checks if the frog is on the ground
     void CheckIfGrounded()
     {
         RaycastHit2D hit = Physics2D.CircleCast(centeredPosition.position, groundedRadius, Vector2.down, groundedRadius, platformLayerMask);
@@ -85,7 +95,7 @@ public class FrogController : MonoBehaviour
 
         isGrounded = (hit) ? true : false;
     }
-
+    // Debugging
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;

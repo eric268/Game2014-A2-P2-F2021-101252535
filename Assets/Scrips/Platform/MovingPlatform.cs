@@ -1,3 +1,9 @@
+//-------------------------MovingPlatform.cs---------------------------------------
+//----------------Author: Eric Galway 101252535------------------------------------
+//----------------Date Last Modified: Dec 11 2021----------------------------------
+//  The file containts the script used moving the moving platform
+//  Revision History : 1.0 Platform now moves along a route 
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +27,7 @@ public class MovingPlatform : MonoBehaviour
     {
         MovePlatform();
     }
-
+    //Moves platform is it is active
     private void MovePlatform()
     {
         if (isActive)

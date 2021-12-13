@@ -1,3 +1,9 @@
+//-------------------------PauseMenuUI.cs-------------------------------------------
+//----------------Author: Eric Galway 101252535------------------------------------
+//----------------Date Last Modified: Dec 11 2021----------------------------------
+//  The file containts the script used for updating the pause menu scene UI
+//  Revision History : 1.2 Added background sound
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,24 +29,20 @@ public class PauseMenuUI : MonoBehaviour
 
         pauseMenuCanvas.SetActive(false);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    //Resumes game
     void ResumeGameButtonPressed()
     {
         gameIsPaused = false;
         pauseMenuCanvas.SetActive(false);
         Time.timeScale = 1.0f;
     }
+    //Main Menu
     void MainMenuButtonPressed()
     {
         Time.timeScale = 1.0f;
         SceneManager.LoadScene("MainMenu");
     }
+    //Quit game
     void ExitGameButtonPressed()
     {
 #if UNITY_EDITOR

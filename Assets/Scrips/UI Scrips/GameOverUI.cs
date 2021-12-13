@@ -1,3 +1,9 @@
+//-------------------------GameOverUI.cs-------------------------------------------
+//----------------Author: Eric Galway 101252535------------------------------------
+//----------------Date Last Modified: Dec 11 2021----------------------------------
+//  The file containts the script used for updating the game over scene UI
+//  Revision History : 1.2 Added loading score and game won data
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +26,7 @@ public class GameOverUI : MonoBehaviour
         LoadGameResults();
         BackgroundSoundManager.PlaySound("GameOver");
     }
-
+    //Loads the saved game data
     void LoadGameResults()
     {
         if (PlayerPrefs.GetInt("Game Saved") == 1)
@@ -45,12 +51,12 @@ public class GameOverUI : MonoBehaviour
         }
         scoreText.text = "Final Score: " + score;
     }
-
+    //Main menu UI button 
     void MainMenuButtonPressed()
     {
         SceneManager.LoadScene("MainMenu");
     }
-
+    //Quit game button 
     void ExitGameButtonPressed()
     {
 #if UNITY_EDITOR
